@@ -1,0 +1,93 @@
+﻿@model List<FYP.Models.Product>
+
+@{
+    ViewBag.Title = "AllProducts";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AllProducts</title>
+    <style>
+        #tableDiv {
+            margin: 5% 10% 10% 10%;
+        }
+
+        .viewButton {
+            background: none !important;
+            border: none;
+            padding: 0 !important;
+            font-family: arial, sans-serif;
+            color: #069;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #AddProductButton {
+            float: right;
+            margin-right: 20px;
+            margin-top: 20px;
+            padding: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            font-weight: bold;
+            width: 150px;
+            font-size: large;
+        }
+    </style>
+    <script>
+        function AddProductClick() {
+            var url = '@Url.Action("AddProduct", "Products")';
+            window.location.href = url;
+        }
+    </script>
+</head>
+<body>
+
+    <div id="tableDiv">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1>All Products</h1>
+            </div>
+            <div>
+                <button type="submit" id="AddProductButton" class="btn btn-success" onclick="AddProductClick()">Add Product</button>
+            </div>
+        </div>
+        <br />
+        <div id="allProductsDiv">
+            <table class="table table-bordered table-striped table-hover text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Product Code</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Descrition</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Percentage</th>
+                        <th scope="col">Details</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model[i].ProductId</td>
+                            <td>@Model[i].Title</td>
+                            <td>@Model[i].Description</td>
+                            <td>@Model[i].Price</td>
+                            <td>@Model[i].Percentage</td>
+                            <form action="/Products/ProductDetails" method="post">
+                            <td><button class='viewButton' name='viewDetails' value=@Model[i].ProductId>View Details</button></td>
+                            </form>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

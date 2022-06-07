@@ -1,0 +1,136 @@
+﻿@model FYP.Models.Product
+
+@{
+    ViewBag.Title = "ProductDetailsView";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ProductDetailsView</title>
+    <style>
+        #productDetailsViewHeadings {
+            color: black;
+            font-weight: bolder;
+            margin-top:50%;
+            margin-left:7%;
+         }
+        #ProductImageDiv {
+            background-image: url( @Model.Image );
+            height: 90vh;
+            background-size:contain;
+            background-repeat:no-repeat;
+            background-position:center;
+            border-left:1px solid #e0e0e0;
+            border-right:1px solid #e0e0e0;
+        }
+        .productDetails{
+            color:black;
+            margin-left:8%;
+            font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+
+        }
+        #FirstDiv {
+            align-items: center;
+            justify-content:center;
+            height:90vh;
+        }
+
+        #ThirdDiv{
+            height:90vh;
+        }
+        .delButton{
+            margin-top:20px;
+            margin-left:10%;
+            padding:10px;
+            font-size:large;
+            width:100px;
+            background-color:white;
+            color:black;
+            font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+        }
+        .editButton {
+            margin-top: 20px;
+            padding: 10px;
+            width: 110px;
+            font-size: large;
+            background-color: black;
+            color: white;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+        }
+        #confirm_modal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+    <script>
+        function delete_confirm() {
+            $("#confirm_modal").modal('show');
+        }
+        function confirmed_delete() {
+            var url = '@Url.Action("deleteOrEdit", "Products")';
+            window.location.href = url;
+        }
+
+    </script>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3" id="FirstDiv">
+                <h1 id="productDetailsViewHeadings">@Model.Title</h1>
+                <h3 class="productDetails">Price: @Model.Price</h3>
+                <h3 class="productDetails">Category: Mobile Phones</h3>
+                <h3 class="productDetails">Installment Percentage:@Model.Percentage</h3>
+
+                <h3 class="productDetails">Installment Type:@ViewBag.Type</h3>
+                <div class="row" style="margin-left:0%">
+                    <div class="col-lg-6">
+                        <button class=' delButton' id="DeleteButton" onclick="delete_confirm()" type='submit' name='delete' value=@Model.ProductId>Delete</button>
+                    </div>
+                    <div>
+                        <form action="/Products/deleteOrEdit" method="post" class='form-group'>
+                            <button class='editButton' type='submit' name='edit' value=@Model.ProductId>Edit</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-5" id="ProductImageDiv">
+
+            </div>
+
+            <div class="col-lg-4" id="ThirdDiv">
+                <h2 id="productDetailsViewHeadings">Product Description:</h2>
+                <h4 class="productDetails">@Model.Description</h4>
+            </div>
+        </div>
+    </div>
+    
+    <!--DELETE CONFIRMATION MODAL-->
+    <div class="modal" tabindex="-1" role="dialog" id="confirm_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Delete Product</h2>
+                </div>
+                <div class="modal-body">
+                    <h5>Are you sure you want to delete this product?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button id="confirmed_button" onclick="confirmed_delete()" type="button" class="btn btn-danger">OK</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

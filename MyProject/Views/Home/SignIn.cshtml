@@ -1,0 +1,117 @@
+﻿@{
+    Layout = null;
+ }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Sign in</title>
+    <script>
+        function checkModal() {
+           
+            if ("@ViewBag.LoginModal"== "Yes") {
+                $("#ErrorModal").modal('show');
+            }
+        }
+    </script>
+    <style>
+
+        #imgageDiv {
+            background-image: url('https://res.cloudinary.com/nomancloudinary/image/upload/v1654335406/IqbalElectronics/loginImage_dxecch.avif');
+            background-position: center;
+            height: 98vh;
+            background-size: cover;
+        }
+        #parentDiv{
+        width: 30%;
+        height:50%;
+        margin-top:8%;
+        margin-left:8%;
+        }
+	#formHeader{
+        background-color:#F7947D;
+        border-radius:10px 10px 0 0;
+        height:60px;
+        text-align: center;
+        padding-left:10px;
+        padding-top:10px;
+    }
+    #form{
+        padding:45px;
+        background-color: white;
+        border-radius:0 0 20px 20px;
+    }
+    #submitButton{
+            background-color:#F7947D;
+            color:white;            
+            border-radius:3px;
+            padding:8px 19px 8px 19px;
+    }
+        #ErrorModal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+</head>
+<body style="background-color:#f0f0f0" onload="checkModal()">
+    <div class="container-fluid">
+        <div class="row">
+           <!--IMAGE DIV-->
+            <div id="imgageDiv" class="col-lg-6">
+            </div>
+            <!--LOGIN FORM DIV-->
+            <div id="parentDiv" class="col-lg-1">
+                <div id="formHeader">
+                    <i class="fas fa-user-lock fa-2x"></i>
+                    <h1 style="display:inline;margin-left:15px;color: white;">Sign in</h1>
+                </div>
+                <div>
+                    <!--LOGIN FORM-->
+                    <form id="form" class="form-group" action="/Home/SignIn" method="POST">
+                        <h3>Login</h3>
+                        <input class="form-control" type="text" name="phone" placeholder="Phone" value="@ViewBag.Phone" required /><br>
+                        <h3>Password</h3>
+                        <input id="passwordField" class="form-control" type="password" name="password" placeholder="Password" value="@ViewBag.Password" required /><br>
+                        <div style="display: flex;justify-content: right;">
+                            <input class="btn btn-success" ; id="submitButton" type="submit" name="btnSubmit" value="Sign In" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL CODE -->
+    <div class="modal fade" id="ErrorModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLongTitle">Invalid Credentials</h3>
+                </div>
+                <div class="modal-body">
+                Your Phone Number or Password is Invalid
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

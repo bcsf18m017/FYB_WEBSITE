@@ -1,0 +1,93 @@
+﻿@model List<FYP.Models.Category>
+@{
+    ViewBag.Title = "AddProduct";
+}
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>AddProduct</title>
+    <style>
+        .fields {
+            width: 350px;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            margin-left: 15%;
+        }
+
+        .texts {
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            margin-left: 15%;
+            color: black;
+        }
+
+        #addButton {
+            float: right;
+            margin-right: 270px;
+            margin-top: 20px;
+            padding: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            font-weight: bold;
+            width: 150px;
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    <h1 style="text-align:center;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;">Add Product Information</h1>
+    <form action="/Products/AddProduct" method="post" enctype="multipart/form-data">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-5" style="margin-left:5%; margin-top:50px;height:500px">
+                    <h3 class="texts">Product Code:</h3>
+                    <input class=" fields" type="text" name="code" placeholder="Product Code" value="@ViewBag.ProductCode" required /><br>
+                    <h3 class="texts">Title:</h3>
+                    <input class=" fields" type="text" name="title" placeholder="Title" value="@ViewBag.ProductTitle" required /><br>
+                    <h3 class="texts">Description:</h3>
+                    <input class=" fields" type="text" name="description" placeholder="Description" value="@ViewBag.ProductDescription" required /><br>
+                    <h3 class="texts">Add Product Image:</h3>
+                    <input class="fields" type="file" accept="image/png, image/jpg, image/jpeg" name="picture" /><br>
+                    <br>
+                </div>
+                <div class="col-lg-6" style="margin-top:50px">
+                    <h3 class="texts">Price:</h3>
+                    <input class=" fields" type="number" name="price" placeholder="Price" value="@ViewBag.ProductPrice" required /><br>
+                    <h3 class="texts">Installment Percentage:</h3>
+                    <input class=" fields" type="number" name="percentage" placeholder="Percentae" value="@ViewBag.ProductPercentage" required /><br>
+                    <h3 class="texts">Select Category:</h3>
+                    <select name="category" class="fields">
+                        <option>Select</option>
+                        @{
+                            var list = Model;
+                            foreach (var item in list)
+                            {
+                                <option>@item.Description</option>
+                            }
+                        }
+                    </select><br>
+                    <h3 class="texts">Select Payment Method:</h3>
+                    <select name="type" class="fields">
+                        <option>Select</option>
+                        <option>Daily</option>
+                        <option>Monthly</option>
+                    </select><br>
+
+                    <input class="btn btn-success" id="addButton" type="submit" name="btnSubmit" value="Add Product" required />
+                    <br><br>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+</body>
+</html>
