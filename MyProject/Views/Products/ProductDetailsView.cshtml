@@ -1,4 +1,4 @@
-﻿@model FYP.Models.Product
+﻿@model IqbalElectronics.DB.Models.Product
 
 @{
     ViewBag.Title = "ProductDetailsView";
@@ -15,32 +15,27 @@
         #productDetailsViewHeadings {
             color: black;
             font-weight: bolder;
-            margin-top:50%;
+            margin-top:20%;
             margin-left:7%;
          }
-        #ProductImageDiv {
-            background-image: url( @Model.Image );
-            height: 90vh;
-            background-size:contain;
-            background-repeat:no-repeat;
-            background-position:center;
-            border-left:1px solid #e0e0e0;
-            border-right:1px solid #e0e0e0;
-        }
         .productDetails{
             color:black;
             margin-left:8%;
             font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
-
         }
         #FirstDiv {
-            align-items: center;
-            justify-content:center;
             height:90vh;
+            border-right:1px solid #e0e0e0;
+            border-left:1px solid #e0e0e0;
         }
 
         #ThirdDiv{
             height:90vh;
+            justify-content:center;
+            display:flex;
+            align-items:center;
+            flex-direction:column;
+            padding:20px;
         }
         .delButton{
             margin-top:20px;
@@ -67,10 +62,41 @@
             top: 50%;
             transform: translate(-50%, -50%);
         }
+        #orderDetails {
+            background-color: white;
+            padding: 5px;
+            width: 80%;
+            font-size: 20px;
+            margin-top: 20px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;            
+        }
+        #dealers {
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            background-color: black;
+            color: white;
+            padding: 5px;
+            width: 80%;
+            font-size: 17px;
+            margin-top:20px;
+            }
+        #producImage {
+            width: 350px;
+            height: 400px;
+            border-radius:10px;
+            margin-top:10px;
+            }
     </style>
     <script>
+        function showOrderDetails() {
+            $('#order_modal').modal('show');
+        }
         function delete_confirm() {
             $("#confirm_modal").modal('show');
+        }
+        function showDealers() {
+            console.log("HELLO");
+            $('#dealers_Modal').modal('show');
+            
         }
         function confirmed_delete() {
             var url = '@Url.Action("deleteOrEdit", "Products")';
@@ -83,36 +109,76 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3" id="FirstDiv">
+            <div class="col-lg-4">
+                <img id="producImage" src="@Model.Image" />
+            </div>
+            <div class="col-lg-4" id="FirstDiv">
                 <h1 id="productDetailsViewHeadings">@Model.Title</h1>
-                <h3 class="productDetails">Price: @Model.Price</h3>
-                <h3 class="productDetails">Category: Mobile Phones</h3>
-                <h3 class="productDetails">Installment Percentage:@Model.Percentage</h3>
+                <h4 class="productDetails">@Model.Price &nbsp;&nbsp;@Model.Category.Description</h4>
+                <h4 class="productDetails">Installment Percentage:@Model.Percentage</h4>
 
-                <h3 class="productDetails">Installment Type:@ViewBag.Type</h3>
-                <div class="row" style="margin-left:0%">
+                <h4 class="productDetails">Installment Type:@ViewBag.Type</h4>
+                <h3 class="productDetails" style="margin-top:50px;">Product Description:</h3>
+                <h4 class="productDetails">@Model.Description</h4>
+                <div class="row" style="margin-top:50px;margin-left:10px">
                     <div class="col-lg-6">
-                        <button class=' delButton' id="DeleteButton" onclick="delete_confirm()" type='submit' name='delete' value=@Model.ProductId>Delete</button>
+                        <button class=' delButton' id="DeleteButton" onclick="delete_confirm()" type='submit' name='delete' value=@Model.Id>Delete</button>
                     </div>
                     <div>
                         <form action="/Products/deleteOrEdit" method="post" class='form-group'>
-                            <button class='editButton' type='submit' name='edit' value=@Model.ProductId>Edit</button>
+                            <button class='editButton' type='submit' name='edit' value=@Model.Id>Edit</button>
                         </form>
                     </div>
                 </div>
 
             </div>
-            <div class="col-lg-5" id="ProductImageDiv">
 
-            </div>
 
             <div class="col-lg-4" id="ThirdDiv">
-                <h2 id="productDetailsViewHeadings">Product Description:</h2>
-                <h4 class="productDetails">@Model.Description</h4>
+                <button id="orderDetails" onclick="showOrderDetails()" type='submit' name='orderdetails' value=@Model.Id>View Order For This Product</button>
+                <button id="dealers" onclick="showDealers()" type='submit' name='dealers' value=@Model.Id>View Dealers Purchases of This Product</button>
             </div>
         </div>
     </div>
-    
+
+
+    <!--ORDER DETAILS MODAL-->
+    <div class="modal fade" id="order_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalScrollableTitle">Order Details</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped table-hover text-center">
+                        <thead>
+                        <th>Order ID</th>
+                        <th>Quantity</th>
+                        <th>Total Amount</th>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                <tr>
+                                    <td>@item.OrderId</td>
+                                    <td>@item.ProductQuantity</td>
+                                    <td>@item.TotalAmount</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--DELETE CONFIRMATION MODAL-->
     <div class="modal" tabindex="-1" role="dialog" id="confirm_modal">
         <div class="modal-dialog" role="document">
@@ -131,6 +197,45 @@
         </div>
     </div>
 
+
+    <!--DEALERS OF PRODUCT-->
+    <div class="modal fade" id="dealers_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalScrollableTitle">Dealers Purchases</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered table-striped table-hover text-center">
+                        <thead>
+                        <th>Person ID</th>
+                        <th>Quantity</th>
+                        <th>Total Bill</th>
+                        <th>Purchase Date</th>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DealerPurchases)
+                            {
+                                <tr>
+                                    <td>@item.PersonId</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.TotalBill</td>
+                                    <td>@item.CreatedOn</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 

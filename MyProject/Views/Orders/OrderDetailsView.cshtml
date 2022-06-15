@@ -1,0 +1,73 @@
+﻿@model IqbalElectronics.DB.Models.Order
+@{
+    ViewBag.Title = "OrderDetailsView";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Order Details</title>
+    <style>
+        #tableDiv {
+            margin: 5% 10% 10% 10%;
+        }
+        #firstDiv{
+            border-right:1px solid #e0e0e0;
+            min-height:80vh;
+            margin-top:30px;
+        }
+    </style>
+    <script>
+    </script>
+</head>
+<body>
+
+    <div class="row">
+        <div class="col-lg-3" id="firstDiv">
+
+        </div>
+        <div class="col-lg-9" id="secondDiv">
+            <div id="tableDiv">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h1>Order Details</h1>
+                    </div>
+                </div>
+                <br />
+                <div id="allDetailssDiv">
+                    <table class="table table-bordered table-striped table-hover text-center">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Product ID</th>
+                                <th scope="col">Product Title</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Totol Amount</th>
+                                <th scope="col">Amount Due</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                <tr>
+                                    <td>@item.OrderId</td>
+                                    <td>@item.ProductId</td>
+                                    <td>@item.Product.Title</td>
+                                    <td>@item.ProductQuantity</td>
+                                    <td>@item.TotalAmount</td>
+                                    <td>@item.AmountDue</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
+

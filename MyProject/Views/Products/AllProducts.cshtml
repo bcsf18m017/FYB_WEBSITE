@@ -1,4 +1,4 @@
-﻿@model List<FYP.Models.Product>
+﻿@model List<IqbalElectronics.DB.Models.Product>
 
 @{
     ViewBag.Title = "AllProducts";
@@ -66,7 +66,6 @@
                         <th scope="col">Price</th>
                         <th scope="col">Percentage</th>
                         <th scope="col">Details</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -74,17 +73,16 @@
                     @for (int i = 0; i < Model.Count; i++)
                     {
                         <tr>
-                            <td>@Model[i].ProductId</td>
+                            <td>@Model[i].Id</td>
                             <td>@Model[i].Title</td>
                             <td>@Model[i].Description</td>
                             <td>@Model[i].Price</td>
                             <td>@Model[i].Percentage</td>
                             <form action="/Products/ProductDetails" method="post">
-                            <td><button class='viewButton' name='viewDetails' value=@Model[i].ProductId>View Details</button></td>
+                            <td><button class='viewButton' name='viewDetails' value=@Model[i].Id>View Details</button></td>
                             </form>
                         </tr>
                     }
-
                 </tbody>
             </table>
         </div>

@@ -1,4 +1,4 @@
-﻿@model FYP.Models.Product
+﻿@model IqbalElectronics.DB.Models.Product
 
 @{
     ViewBag.Title = "EditProduct";
@@ -48,7 +48,7 @@
             <div class="row">
                 <div class="col-lg-5" style="margin-left:5%; margin-top:50px;height:500px">
                     <h3 class="texts">Product Code:</h3>
-                    <input class=" fields" type="text" name="code" placeholder="Product Code" value="@Model.ProductId" required /><br>
+                    <input class=" fields" type="text" name="code" placeholder="Product Code" value="@Model.Id" required /><br>
                     <h3 class="texts">Title:</h3>
                     <input class=" fields" type="text" name="title" placeholder="Title" value="@Model.Title" required /><br>
                     <h3 class="texts">Description:</h3>

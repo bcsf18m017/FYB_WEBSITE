@@ -1,14 +1,11 @@
-﻿@model List<FYP.Models.Category>
+﻿@model List<FYP.Models.CategoryModel>
 @{
     ViewBag.Title = "AddProduct";
 }
-
-
-
 <!DOCTYPE html>
 
 <html>
-<head>
+<head>s
     <meta name="viewport" content="width=device-width" />
 
     <title>AddProduct</title>
@@ -55,7 +52,7 @@
                     <h3 class="texts">Description:</h3>
                     <input class=" fields" type="text" name="description" placeholder="Description" value="@ViewBag.ProductDescription" required /><br>
                     <h3 class="texts">Add Product Image:</h3>
-                    <input class="fields" type="file" accept="image/png, image/jpg, image/jpeg" name="picture" /><br>
+                    <input class="fields" type="file" accept="image/png, image/jpg, image/jpeg" name="image" /><br>
                     <br>
                 </div>
                 <div class="col-lg-6" style="margin-top:50px">

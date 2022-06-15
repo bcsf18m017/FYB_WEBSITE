@@ -1,0 +1,95 @@
+﻿@model List<IqbalElectronics.DB.Models.Order>
+
+@{
+    ViewBag.Title = "AllOrders";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AllProducts</title>
+    <style>
+        #tableDiv {
+            margin: 5% 10% 10% 10%;
+        }
+
+        .viewButton {
+            background: none !important;
+            border: none;
+            padding: 0 !important;
+            font-family: arial, sans-serif;
+            color: #069;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #AddOrderButton {
+            float: right;
+            margin-right: 20px;
+            margin-top: 20px;
+            padding: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            font-weight: bold;
+            width: 150px;
+            font-size: large;
+        }
+    </style>
+    <script>
+        function AddProductClick() {
+            var url = '@Url.Action("AddProduct", "Products")';
+            window.location.href = url;
+        }
+    </script>
+</head>
+<body>
+
+    <div id="tableDiv">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1>All Orders</h1>
+            </div>
+            <div>
+                <button type="submit" id="AddOrderButton" class="btn btn-success" onclick="AddOrderClick()">Add Order</button>
+            </div>
+        </div>
+        <br />
+        <div id="allOrdersDiv">
+            <table class="table table-bordered table-striped table-hover text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Person ID</th>
+                        <th scope="col">Total Bill</th>
+                        <th scope="col">Bill Due</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Order Details</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model[i].Id</td>
+                            <td>@Model[i].PersonId</td>
+                            <td>@Model[i].TotalBill</td>
+                            <td>@Model[i].BillDue</td>
+                            <td>@Model[i].CreatedOn</td>
+                            <form action="/Orders/OrderDetails" method="post">
+                            <td><button class='viewButton' name='viewDetails' value=@Model[i].Id>View Details or Add Payment</button></td>
+                            </form>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+   
+
+</body>
+</html>

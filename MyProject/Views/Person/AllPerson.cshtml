@@ -1,0 +1,117 @@
+﻿@model List<MyProject.Models.PersonModel>
+
+@{
+    ViewBag.Title = "AllPerson";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ALLStaff</title>
+    <style>
+        #tableDiv {
+            margin: 5% 10% 10% 10%;
+        }
+
+        .viewButton {
+            background: none !important;
+            border: none;
+            padding: 0 !important;
+            font-family: arial, sans-serif;
+            color: #069;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #AddStaffButton {
+            float: right;
+            margin-right: 20px;
+            margin-top: 20px;
+            padding: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            font-weight: bold;
+            width: 150px;
+            font-size: large;
+        }
+    </style>
+    <script>
+        function AddStaffClick() {
+            var url = '@Url.Action("AddStaff", "Person")';
+            window.location.href = url;
+        }
+         function AddCustomerClick() {
+            var url = '@Url.Action("AddCustomer", "Person")';
+            window.location.href = url;
+        }
+    </script>
+</head>
+<body>
+
+    <div id="tableDiv">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1>All @ViewBag.CustomerOrStaff</h1>
+            </div>
+            <div>
+                @if (ViewBag.CustomerOrStaff == "Staff")
+                {
+                    <button type="submit" id="AddStaffButton" class="btn btn-success" onclick="AddStaffClick()">Add @ViewBag.CustomerOrStaff</button>
+                }
+                else
+            {
+                <button type="submit" id="AddStaffButton" class="btn btn-success" onclick="AddCustomerClick()">Add @ViewBag.CustomerOrStaff</button>
+            }
+            </div>
+        </div>
+        <br />
+        <div id="allPersonDiv">
+            <table class="table table-bordered table-striped table-hover text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Cnic</th>
+                        @if (ViewBag.CustomerOrStaff == "Staff")
+                        {
+                            <th scope="col">Salary</th>
+                        }
+                        <th scope="col">View Profile</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model[i].Id</td>
+                            <td>@Model[i].Name</td>
+                            <td>@Model[i].Address</td>
+                            <td>@Model[i].Phone</td>
+                            <td>@Model[i].Cnic</td>
+                            @if (ViewBag.CustomerOrStaff == "Staff")
+                            {
+                                <td>@Model[i].Salary</td>
+                                <form action="/Person/StaffDetails" method="post">
+                                <td><button class='viewButton' name='viewDetails' value=@Model[i].Id>View Details</button></td>
+                                </form>
+                            }
+                            else
+                            {
+                                <form action="/Person/CustomerDetails" method="post">
+                                <td><button class='viewButton' name='viewDetails' value=@Model[i].Id>View Details</button></td>
+                                </form>
+                            }
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
