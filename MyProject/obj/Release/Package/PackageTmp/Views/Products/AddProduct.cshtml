@@ -1,0 +1,156 @@
+﻿@model List<IqbalElectronics.DB.Models.Category>
+@{
+    ViewBag.Title = "AddProduct";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+
+    <title>AddProduct</title>
+    <style>
+        .fields {
+            width: 350px;
+            padding: 8px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            margin-left: 15%;
+        }
+
+        .texts {
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            margin-left: 15%;
+            color: black;
+        }
+
+        #addButton {
+            float: right;
+            margin-right: 40%;
+            margin-top: 20px;
+            padding: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            font-weight: bold;
+            width: 150px;
+            font-size: large;
+        }
+    </style>
+    <script>
+        function checkModal() {
+           if ("@ViewBag.IsCategoryResult"== "Yes") {
+               $('#category_result_modal').modal('show');
+            }
+        }
+
+        function showModal() {
+            $('#category_modal').modal('show');
+        }
+    </script>
+</head>
+<body onload="checkModal()">
+    <h1 style="text-align:center;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;">Add Product Information</h1>
+    <form action="/Products/AddProduct" method="post" enctype="multipart/form-data">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-5" style="margin-left: 5%; margin-top: 10px; height: 75vh; border-right: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0">
+                    <h3 class="texts">Title:</h3>
+                    <input class=" fields" type="text" name="title" placeholder="Title" value="@ViewBag.ProductTitle" required /><br>
+                    <h3 class="texts">Description:</h3>
+                    <input class=" fields" type="text" name="description" placeholder="Description" value="@ViewBag.ProductDescription" required /><br>
+                    <h3 class="texts">Add Product Image:</h3>
+                    <input class="fields" type="file" accept="image/png, image/jpg, image/jpeg" name="image" /><br>
+                    <h3 class="texts">Installment Total Months:</h3>
+                    <input class=" fields" type="number" name="installment" placeholder="Months" value="@ViewBag.MinimumInstallments" required /><br>
+                    <br>
+                </div>
+                <div class="col-lg-6" style="margin-top:10px;height:75vh">
+                    <h3 class="texts">Price:</h3>
+                    <input class=" fields" type="number" name="price" placeholder="Price" value="@ViewBag.ProductPrice" required /><br>
+                    <h3 class="texts">Installment Percentage:</h3>
+                    <input class=" fields" type="number" name="percentage" placeholder="Percentae" value="@ViewBag.ProductPercentage" required /><br>
+                    <div class="row" style="margin-left:40px">
+                        <div class="col-lg-6">
+                            <h3 class="texts">Select Category:</h3>
+                            <select name="category" class="fields">
+                                <option>Select</option>
+                                @{
+                                    var list = Model;
+                                    foreach (var item in list)
+                                    {
+                                        <option>@item.Description</option>
+                                    }
+                                }
+                            </select><br>
+                        </div>
+                        <div>
+                            <a class='btn btn-link' style="margin-top:70px;margin-left:35px" onclick="showModal()">Add Category</a>
+                        </div>
+                    </div>
+                    <h3 class="texts">Select Payment Method:</h3>
+                    <select name="type" class="fields">
+                        <option>Select</option>
+                        <option>Daily</option>
+                        <option>Monthly</option>
+                        <option>Both</option>
+                    </select><br>
+
+                    <input class="btn btn-success" id="addButton" type="submit" name="btnSubmit" value="Add Product" required />
+                    <br><br>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--category add model-->
+    <div class="modal" tabindex="-1" role="dialog" id="category_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Add Category</h2>
+                </div>
+                <div class="modal-body" style="justify-content:center">
+                    <h5>Please Enter Category Description:</h5><br>
+                    <form action="/Products/AddCategory" method="post">
+                        <input id="categoryDescription" class="form-control" type="text" name="description" placeholder="Description" required /><br>
+                        <button style="margin-left:240px" type="submit" class="btn btn-success">Ok</button>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Category Result Modal-->
+    <div class="modal" tabindex="-1" role="dialog" id="category_result_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Add Category</h2>
+                </div>
+                <div class="modal-body" style="justify-content:center">
+                    @if (ViewBag.CategoryAdd == "Yes")
+                    {
+                        <h5>Category Added Successfully</h5><br>
+                    }
+                    else
+                    {
+                        <h5>Unable To add category or category already exist</h5><br>
+                    }
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

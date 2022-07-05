@@ -26,7 +26,7 @@
             cursor: pointer;
         }
 
-        #AddOrderButton {
+        #RefreshButton {
             float: right;
             margin-right: 20px;
             margin-top: 20px;
@@ -42,6 +42,11 @@
             var url = '@Url.Action("AddProduct", "Products")';
             window.location.href = url;
         }
+        function messageModal() {
+            if ("@ViewBag.IsOrderMessage" == "Yes") {
+                $('#orderMessageModel').modal('show');
+            }
+        }
     </script>
 </head>
 <body>
@@ -52,7 +57,9 @@
                 <h1>All Orders</h1>
             </div>
             <div>
-                <button type="submit" id="AddOrderButton" class="btn btn-success" onclick="AddOrderClick()">Add Order</button>
+                <form action="/Orders/RefreshData" method="post">
+                    <td><button class='btn btn-success'id="RefreshButton" name='viewDetails'>Refresh</button></td>
+                </form>
             </div>
         </div>
         <br />
@@ -61,7 +68,7 @@
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Order ID</th>
-                        <th scope="col">Person ID</th>
+                        <th scope="col">Person Name</th>
                         <th scope="col">Total Bill</th>
                         <th scope="col">Bill Due</th>
                         <th scope="col">Order Date</th>
@@ -75,7 +82,7 @@
                     {
                         <tr>
                             <td>@Model[i].Id</td>
-                            <td>@Model[i].PersonId</td>
+                            <td>@Model[i].Person.Name</td>
                             <td>@Model[i].TotalBill</td>
                             <td>@Model[i].BillDue</td>
                             <td>@Model[i].CreatedOn</td>
@@ -89,7 +96,22 @@
         </div>
     </div>
 
-   
 
+
+    <div class="modal" tabindex="-1" role="dialog" id="orderMessageModel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Message</h2>
+                </div>
+                <div class="modal-body">
+                    <h5>@ViewBag.AllOrderMessage</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

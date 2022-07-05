@@ -1,4 +1,4 @@
-﻿@model List<MyProject.Models.PersonModel>
+﻿@model List<IqbalElectronics.DB.Models.Person>
 
 @{
     ViewBag.Title = "AllPerson";
@@ -46,9 +46,14 @@
             var url = '@Url.Action("AddCustomer", "Person")';
             window.location.href = url;
         }
+        function messageModal() {
+            if ("@ViewBag.IsMessage" == "Yes") {
+                $('#personMessageModel').modal('show');
+            }
+        }
     </script>
 </head>
-<body>
+<body onload="messageModal()">
 
     <div id="tableDiv">
         <div class="row">
@@ -61,9 +66,9 @@
                     <button type="submit" id="AddStaffButton" class="btn btn-success" onclick="AddStaffClick()">Add @ViewBag.CustomerOrStaff</button>
                 }
                 else
-            {
-                <button type="submit" id="AddStaffButton" class="btn btn-success" onclick="AddCustomerClick()">Add @ViewBag.CustomerOrStaff</button>
-            }
+                {
+                    <button type="submit" id="AddStaffButton" class="btn btn-success" onclick="AddCustomerClick()">Add @ViewBag.CustomerOrStaff</button>
+                }
             </div>
         </div>
         <br />
@@ -75,7 +80,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Address</th>
                         <th scope="col">Phone</th>
-                        <th scope="col">Cnic</th>
+                        <th scope="col">CNIC</th>
                         @if (ViewBag.CustomerOrStaff == "Staff")
                         {
                             <th scope="col">Salary</th>
@@ -91,7 +96,7 @@
                             <td>@Model[i].Id</td>
                             <td>@Model[i].Name</td>
                             <td>@Model[i].Address</td>
-                            <td>@Model[i].Phone</td>
+                            <td>@Model[i].PhoneNumber</td>
                             <td>@Model[i].Cnic</td>
                             @if (ViewBag.CustomerOrStaff == "Staff")
                             {
@@ -113,5 +118,22 @@
             </table>
         </div>
     </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="personMessageModel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Message</h2>
+                </div>
+                <div class="modal-body">
+                    <h5>@ViewBag.AllPersonMessage</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

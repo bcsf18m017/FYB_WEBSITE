@@ -1,4 +1,4 @@
-﻿@model IqbalElectronics.DB.Models.Order
+﻿@model List<IqbalElectronics.DB.Models.OrderDetail>
 @{
     ViewBag.Title = "OrderDetailsView";
 }
@@ -17,16 +17,11 @@
             margin-top:30px;
         }
     </style>
-    <script>
-    </script>
 </head>
 <body>
 
     <div class="row">
-        <div class="col-lg-3" id="firstDiv">
-
-        </div>
-        <div class="col-lg-9" id="secondDiv">
+        <div id="secondDiv">
             <div id="tableDiv">
                 <div class="row">
                     <div class="col-lg-6">
@@ -38,29 +33,29 @@
                     <table class="table table-bordered table-striped table-hover text-center">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Order ID</th>
                                 <th scope="col">Product ID</th>
-                                <th scope="col">Product Title</th>
+                                <th scope="col">Product Name</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Totol Amount</th>
                                 <th scope="col">Amount Due</th>
-
+                                <th scope="col">Add Payment</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @foreach (var item in Model.OrderDetails)
+                            @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@item.OrderId</td>
                                     <td>@item.ProductId</td>
                                     <td>@item.Product.Title</td>
                                     <td>@item.ProductQuantity</td>
                                     <td>@item.TotalAmount</td>
                                     <td>@item.AmountDue</td>
+                                    <form action="/Orders/AddPayment" method="post">
+                                    <td><button class='viewButton' name='payment' value=@item.Id>Add Installment</button></td>
+                                    </form>
                                 </tr>
                             }
-
                         </tbody>
                     </table>
                 </div>

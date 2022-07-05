@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IqbalElectronics.DB.Models
 {
-    public partial class PersonGuarantee
+    public partial class PersonGuaranteeModel
     {
         public string Id { get; set; }
         public string PersonId { get; set; }

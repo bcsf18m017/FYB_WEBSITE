@@ -1,0 +1,117 @@
+﻿@model List<IqbalElectronics.DB.Models.Order>
+
+@{
+    ViewBag.Title = "AllOrders";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AllProducts</title>
+    <style>
+        #tableDiv {
+            margin: 5% 10% 10% 10%;
+        }
+
+        .viewButton {
+            background: none !important;
+            border: none;
+            padding: 0 !important;
+            font-family: arial, sans-serif;
+            color: #069;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        #RefreshButton {
+            float: right;
+            margin-right: 20px;
+            margin-top: 20px;
+            padding: 10px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            font-weight: bold;
+            width: 150px;
+            font-size: large;
+        }
+    </style>
+    <script>
+        function AddProductClick() {
+            var url = '@Url.Action("AddProduct", "Products")';
+            window.location.href = url;
+        }
+        function messageModal() {
+            if ("@ViewBag.IsOrderMessage" == "Yes") {
+                $('#orderMessageModel').modal('show');
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="tableDiv">
+        <div class="row">
+            <div class="col-lg-6">
+                <h1>All Orders</h1>
+            </div>
+            <div>
+                <form action="/Orders/RefreshData" method="post">
+                    <td><button class='btn btn-success'id="RefreshButton" name='viewDetails'>Refresh</button></td>
+                </form>
+            </div>
+        </div>
+        <br />
+        <div id="allOrdersDiv">
+            <table class="table table-bordered table-striped table-hover text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Person Name</th>
+                        <th scope="col">Total Bill</th>
+                        <th scope="col">Bill Due</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Order Details</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                        <tr>
+                            <td>@Model[i].Id</td>
+                            <td>@Model[i].Person.Name</td>
+                            <td>@Model[i].TotalBill</td>
+                            <td>@Model[i].BillDue</td>
+                            <td>@Model[i].CreatedOn</td>
+                            <form action="/Orders/OrderDetails" method="post">
+                            <td><button class='viewButton' name='viewDetails' value=@Model[i].Id>View Details or Add Payment</button></td>
+                            </form>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="orderMessageModel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Message</h2>
+                </div>
+                <div class="modal-body">
+                    <h5>@ViewBag.AllOrderMessage</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

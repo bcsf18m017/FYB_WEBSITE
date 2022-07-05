@@ -21,6 +21,7 @@ namespace IqbalElectronics.DB.Models
         public bool Daily { get; set; }
         public bool Monthly { get; set; }
         public string CreatedBy { get; set; }
+        public int MinimumInstallments { get; set; }
 
         public virtual Category Category { get; set; } 
         public virtual Person CreatedByNavigation { get; set; }

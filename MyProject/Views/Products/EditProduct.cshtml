@@ -27,9 +27,9 @@
             color: black;
         }
 
-        #addButton {
+        #updateButton {
             float: right;
-            margin-right: 270px;
+            margin-right: 40%;
             margin-top: 20px;
             padding: 10px;
             font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
@@ -46,18 +46,20 @@
     <form action="/Products/AddProduct" method="post" enctype="multipart/form-data">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-5" style="margin-left:5%; margin-top:50px;height:500px">
-                    <h3 class="texts">Product Code:</h3>
-                    <input class=" fields" type="text" name="code" placeholder="Product Code" value="@Model.Id" required /><br>
+                <div class="col-lg-5" style="margin-left:5%; margin-top:10px;height:75vh">
+
                     <h3 class="texts">Title:</h3>
                     <input class=" fields" type="text" name="title" placeholder="Title" value="@Model.Title" required /><br>
                     <h3 class="texts">Description:</h3>
                     <input class=" fields" type="text" name="description" placeholder="Description" value="@Model.Description" required /><br>
                     <h3 class="texts">Add Product Image:</h3>
                     <input class="fields" type="file" accept="image/png, image/jpg, image/jpeg" name="picture" value="@Model.Image" /><br>
+                    <h3 class="texts">Product Installments</h3>
+                    <input class=" fields" type="number" name="installment" placeholder="Installments" value="@Model.MinimumInstallments" required /><br>
                     <br>
+
                 </div>
-                <div class="col-lg-6" style="margin-top:50px">
+                <div class="col-lg-6" style="margin-top:10px;height:75vh">
                     <h3 class="texts">Price:</h3>
                     <input class=" fields" type="number" name="price" placeholder="Price" value="@Model.Price" required /><br>
                     <h3 class="texts">Installment Percentage:</h3>
@@ -89,16 +91,24 @@
                         {
                             <option selected>Daily</option>
                             <option>Monthly</option>
+                            <option>Both</option>
+                        }
+                        else if (ViewBag.EditProductPaymentType == "Monthly")
+                        {
+                            <option>Daily</option>
+                            <option selected>Monthly</option>
+                            <option>Both</option>
                         }
                         else
                         {
                             <option>Daily</option>
-                            <option selected>Monthly</option>
+                            <option >Monthly</option>
+                            <option selected>Both</option>
                         }
 
                     </select><br>
 
-                    <input class="btn btn-success" id="addButton" type="submit" name="btnSubmit" value="Update Product" required />
+                    <input class="btn btn-success" id="updateButton" type="submit" name="btnSubmit" value="Update Product" required />
                     <br><br>
 
                 </div>

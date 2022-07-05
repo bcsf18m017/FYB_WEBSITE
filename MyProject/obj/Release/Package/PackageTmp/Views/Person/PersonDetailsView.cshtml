@@ -1,0 +1,175 @@
+﻿@model  IqbalElectronics.DB.Models.Person
+
+@{
+    ViewBag.Title = "PersonDetailsView";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ProductDetailsView</title>
+    <style>
+        #productDetailsViewHeadings {
+            color: black;
+            font-weight: bolder;
+            margin-top:14%;
+            margin-left:7%;
+         }
+        .Heading {
+            color: black;
+            font-weight: bolder;
+            margin-top: 5%;
+            margin-left: 7%;
+        }
+        #StaffImageDiv {
+            height: 88vh;
+            border-right: 1px solid #e0e0e0;
+        }
+        .productDetails{
+            color:black;
+            margin-left:8%;
+            font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+            margin-top:40px;
+
+        }
+        #FirstDiv {
+            align-items: center;
+            height:88vh;
+        }
+
+        #ThirdDiv{
+            height:88vh;
+        }
+        .delButton{
+            margin-top:20px;
+            margin-left:10%;
+            padding:10px;
+            font-size:large;
+            width:100px;
+            background-color:white;
+            color:black;
+            font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+        }
+        .editButton {
+            margin-top: 20px;
+            padding: 10px;
+            width: 110px;
+            font-size: large;
+            background-color: black;
+            color: white;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+        }
+        #confirm_modal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #userImage
+        {
+            width:250px;
+            height:250px;
+            border-radius:50%;
+            margin:40px;
+        }
+    </style>
+    <script>
+        function delete_confirm() {
+            $("#confirm_modal").modal('show');
+        }
+        function confirmed_delete() {
+            var url = '@Url.Action("deleteOrEdit", "Person")';
+            window.location.href = url;
+        }
+
+    </script>
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-3" id="StaffImageDiv">
+                <img id="userImage" src="https://res.cloudinary.com/nomancloudinary/image/upload/@Model.Image" />
+            </div>
+
+            <div class="col-lg-5" id="FirstDiv" style="margin-right:1px solid #e0e0e0">
+                <h1 id="productDetailsViewHeadings">@Model.Name</h1><hr />
+                <h4 class="productDetails">Address: @Model.Address</h4><hr />
+                <h4 class="productDetails">CNIC:@Model.Cnic</h4><hr />
+                <h4 class="productDetails">Phone:@Model.PhoneNumber</h4><hr />
+
+                @if (ViewBag.CustomerOrStaff == "Staff")
+                {
+                    <h4 class="productDetails">Salary:@Model.Salary</h4><hr />
+                }
+
+                <div class="row" style="margin-left:0%">
+                    <div class="col-lg-6">
+                        <button class=' delButton' id="DeleteButton" onclick="delete_confirm()" type='submit' name='delete' value=@Model.Id>Delete</button>
+                    </div>
+                    <div>
+                        <form action="/Person/deleteOrEdit" method="post" class='form-group'>
+                            <button class='editButton' type='submit' name='edit' value=@Model.Id>Edit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-4">
+                @if (ViewBag.CustomerOrStaff == "Customer")
+                {
+                    <h3 class="Heading">Orders of this Customer</h3><br />
+                    <table class="table table-bordered table-striped table-hover text-center">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Total Bill</th>
+                                <th scope="col">Bill Due</th>
+                                <th scope="col">Order Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Orders)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td>@item.TotalBill</td>
+                                    <td>@item.BillDue</td>
+                                    <td>@item.CreatedOn</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+           
+
+        </div>
+    </div>
+
+    <!--DELETE CONFIRMATION MODAL-->
+    <div class="modal" tabindex="-1" role="dialog" id="confirm_modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Delete @ViewBag.CustomerOrStaff</h2>
+                </div>
+                <div class="modal-body">
+                    <h5>Are you sure you want to delete this @ViewBag.CustomerOrStaff?</h5>
+                </div>
+                <div class="modal-footer">
+                    <button id="confirmed_button" onclick="confirmed_delete()" type="button" class="btn btn-danger">OK</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

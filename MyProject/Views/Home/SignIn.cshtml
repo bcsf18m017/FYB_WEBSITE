@@ -18,7 +18,8 @@
     <title>Sign in</title>
     <script>
         function checkModal() {
-           
+
+            console.log("@ViewBag.LoginModal")
             if ("@ViewBag.LoginModal"== "Yes") {
                 $("#ErrorModal").modal('show');
             }
@@ -29,7 +30,7 @@
         #imgageDiv {
             background-image: url('https://res.cloudinary.com/nomancloudinary/image/upload/v1654335406/IqbalElectronics/loginImage_dxecch.avif');
             background-position: center;
-            height: 98vh;
+            height: 100vh;
             background-size: cover;
         }
         #parentDiv{

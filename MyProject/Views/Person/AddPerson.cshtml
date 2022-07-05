@@ -1,12 +1,10 @@
-﻿@model List<MyProject.Models.PersonModel>
+﻿@model List<IqbalElectronics.DB.Models.Person>
 @{
     ViewBag.Title = "AddPerson";
 }
 <!DOCTYPE html>
 
 <html>
-<head>
-    s
     <meta name="viewport" content="width=device-width" />
 
     <title>AddProduct</title>
@@ -15,7 +13,7 @@
             width: 350px;
             padding: 8px;
             border-radius: 5px;
-            margin-top: 10px;
+            margin-top: 20px;
             font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
             margin-left: 15%;
         }
@@ -28,7 +26,7 @@
 
         #addButton {
             float: right;
-            margin-right: 320px;
+            margin-right: 41%;
             margin-top: 20px;
             padding: 10px;
             font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
@@ -38,68 +36,72 @@
         }
     </style>
 </head>
-<body>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
-    <h1 style="text-align:center;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;">Add @ViewBag.CustomerOrStaff Information</h1>
-    <form action="/Products/AddProduct" method="post" enctype="multipart/form-data">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-5" style="margin-left: 5%; margin-top: 30px; height: 500px; border-left: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0">
-                    <h3 class="texts">Name:</h3>
-                    <input class=" fields" type="text" name="name" placeholder="Product Name" value="@ViewBag.PersonName" required /><br>
-                    <h3 class="texts">Address:</h3>
-                    <input class=" fields" type="text" name="address" placeholder="Address" value="@ViewBag.PersonAddress" required /><br>
-                    <h3 class="texts">Phone:</h3>
-                    <input class=" fields" type="number" name="phone" placeholder="Phone" value="@ViewBag.PersonPhone" required /><br>
-                    <h3 class="texts">Image:</h3>
-                    <input class="fields" type="file" accept="image/png, image/jpg, image/jpeg" name="image" /><br>
-                    <br>
+    <body>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        <h1 style="text-align:center;font-family:Cambria, Cochin, Georgia, Times, Times New Roman, serif;">Add @ViewBag.CustomerOrStaff Information</h1>
+        @if (ViewBag.CustomerOrStaff == "Staff")
+        {
+            <form action="/Person/AddStaff" method="post" enctype="multipart/form-data">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-5" style="margin-left: 5%; margin-top: 10px; height: 75vh; border-left: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0">
+                            <h3 class="texts">Name:</h3>
+                            <input class=" fields" type="text" name="name" placeholder="Person Name" value="@ViewBag.PersonName" required /><br>
+                            <h3 class="texts">Address:</h3>
+                            <input class=" fields" type="text" name="address" placeholder="Address" value="@ViewBag.PersonAddress" required /><br>
+                            <h3 class="texts">Phone:</h3>
+                            <input class=" fields" type="number" name="phone" placeholder="Phone" value="@ViewBag.PersonPhone" maxlength="11" required /><br>
+                            <h3 class="texts">Image:</h3>
+                            <input class="fields" type="file" accept="image/png, image/jpg, image/jpeg" name="image" /><br>
+                            <br>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 10px;height:75vh;">
+                            <h3 class="texts">CNIC:</h3>
+                            <input class=" fields" type="number" name="cnic" placeholder="CNIC" value="@ViewBag.PersonCnic" maxlength="13" required /><br>
+                            <h3 class="texts">Created At:</h3>
+                            <input class=" fields" name="createdAT" placeholder="createdat" value=@ViewBag.Now readonly /><br>
+                            <h3 class="texts">Salary:</h3>
+                            <input class=" fields" type="number" name="salary" placeholder="Salary" value="@ViewBag.PersonSalary" required /><br>
+
+                            <input class="btn btn-success" style="margin-top:50px" id="addButton" type="submit" name="btnSubmit" value="Add @ViewBag.CustomerOrStaff" required />
+                            <br><br>
+
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-6" style="margin-top: 30px;height:500px;">
-                    <h3 class="texts">CNIC:</h3>
-                    <input class=" fields" type="number" name="cnic" placeholder="CNIC" value="@ViewBag.PersonCnic" required /><br>
-                    <h3 class="texts">Created At:</h3>
-                    <input class=" fields" name="createdAT" placeholder="createdat" value=@ViewBag.Now readonly /><br>
-                    @if (ViewBag.CustomerOrStaff == "Staff")
-                    {
-                        <h3 class="texts">Salary:</h3>
-                        <input class=" fields" type="number" name="salary" placeholder="Salary" value="@ViewBag.PersonSalary" required /><br>
-                    }
-                    else
-                    {
-                        <h3 class="texts">Select First Guarantee:</h3>
-                        <select name="guarantee1" class="fields">
-                            <option>Select</option>
-                            @{
-                                var list = Model;
-                                foreach (var item in list)
-                                {
-                                    <option>@item.Id @item.Name</option>
-                                }
-                            }
-                        </select><br>
-                        <h3 class="texts">Select Second Guarantee:</h3>
+            </form>
 
-                        <select name="guarantee1" class="fields">
-                            <option>Select</option>
-                            @{
-                                foreach (var item in list)
-                                {
-                                    <option>@item.Id @item.Name</option>
-                                }
-                            }
-                        </select><br>
-                    }
+        }
+        else
+        {
+            <form action="/Person/AddCustomer" method="post" enctype="multipart/form-data">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-5" style="margin-left: 5%; margin-top: 10px; height: 75vh; border-left: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0">
+                            <h3 class="texts">Name:</h3>
+                            <input class=" fields" type="text" name="name" placeholder="Person Name" value="@ViewBag.PersonName" required /><br>
+                            <h3 class="texts">Address:</h3>
+                            <input class=" fields" type="text" name="address" placeholder="Address" value="@ViewBag.PersonAddress" required /><br>
+                            <h3 class="texts">Phone:</h3>
+                            <input class=" fields" type="number" name="phone" placeholder="Phone" value="@ViewBag.PersonPhone" maxlength="11" required /><br>
+                           <br>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: 10px;height:75vh;">
+                            <h3 class="texts">Image:</h3>
+                            <input class="fields" type="file" accept="image/png, image/jpg, image/jpeg" name="image" /><br>
 
-
-                    <input class="btn btn-success" style="margin-top:50px" id="addButton" type="submit" name="btnSubmit" value="Add @ViewBag.CustomerOrStaff" required />
-                    <br><br>
-
+                            <h3 class="texts">CNIC:</h3>
+                            <input class=" fields" type="number" name="cnic" placeholder="CNIC" value="@ViewBag.PersonCnic" maxlength="13" required /><br>
+                            <h3 class="texts">Created At:</h3>
+                            <input class=" fields" name="createdAT" placeholder="createdat" value=@ViewBag.Now readonly /><br>
+                            <input class="btn btn-success" style="margin-top:50px" id="addButton" type="submit" name="btnSubmit" value="Add @ViewBag.CustomerOrStaff" required />
+                            <br><br>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </form>
+            </form>
+        }
 
-</body>
+    </body>
 </html>
